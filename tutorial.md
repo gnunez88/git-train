@@ -55,9 +55,25 @@ print("Hello world")
 #!/usr/bin/env python3
 with open("name.txt", "r") as f:
     name = f.read()
-    print(name)
+    print(f"Hello {name}")
 ```
-15. Check the status of the repository:
+15. Create a file `name.txt` with your name
+16. Check the status of the repository:
     - `git status`
-16. 
+17. You may not want to save `name.txt` or any `.txt` files, then you should create a `.gitignore` file:
+    - `echo '*.txt' > .gitignore`
+18. Check the status of the repository:
+    - `git status`
+    - The `name.txt` file does not show up any longer.
+19. Add the `.gitignore` file to the staging area and commit it:
+    - `git add .gitignore`
+    - `git commit -m ".gitignore added"`
+20. Check the status of the repository:
+    - `git status`
+    - There are still changes to commit. We only have commited the `.gitignore` file.
+21. Add the new changes to index and commit.
+    - `git add -A`
+    - `git commit -m "hello.py reads name from file"`
+
+
 
