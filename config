@@ -1,0 +1,9 @@
+# Path for this file: ${HOME}/.ssh/config
+# ssh-keygen -t rsa -b 2048 -N '' -f ~/.ssh/github -q
+# git clone git@github.com:<username>/<repo>.git
+Host github.com
+    Hostname github.com
+    User git
+    Port 22
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/github

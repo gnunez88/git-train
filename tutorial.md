@@ -75,7 +75,15 @@ with open("name.txt", "r") as f:
     - There are still changes to commit. We only have commited the `.gitignore` file.
 21. Add the new changes to index and commit.
     - `git add -A`
-    - `git commit -m "hello.py reads name from file"`
+    - `git commit -m "hello.py reads name from a fly"`
+22. Check the logs:
+    - `git log`
+    - You might notice you did not want to write `a fly`, but `a file`.
+23. Ammend your commit message:
+    - `git commit --amend -m "hello.py reads name from a file"`
+    - Note: you can do this only with the last commit.
+24. Check the logs to see if the message was changed:
+    - `git log`
 
 ## 02 - Still Basic Level
 

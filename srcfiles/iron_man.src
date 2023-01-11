@@ -1,0 +1,2 @@
+export HOME=${PWD}/home/iron_man
+export EDITOR=vim

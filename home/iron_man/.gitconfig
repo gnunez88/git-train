@@ -1,0 +1,5 @@
+[user]
+	email = tony.stark@marvel.us
+	name = Tony Stark
+[core]
+	editor = vim

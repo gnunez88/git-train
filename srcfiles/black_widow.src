@@ -1,0 +1,2 @@
+export HOME=${PWD}/home/black_widow
+export EDITOR=vim
