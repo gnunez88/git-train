@@ -1,0 +1,9 @@
+# Virtual environments
+venv
+# Swap and backup files
+**/*.swp
+# Cache python directories
+**/__pycache__
+# History files
+**/.viminfo
+**/.lesshst

@@ -1,0 +1,2 @@
+export HOME=${PWD}/home/thor
+export EDITOR=vim

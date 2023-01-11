@@ -1,0 +1,5 @@
+[user]
+	email = steve.rogers@marvel.us
+	name = Steve Rogers
+[core]
+	editor = vim

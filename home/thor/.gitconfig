@@ -1,0 +1,5 @@
+[user]
+	email = thor@marvel.com
+	name = Thor
+[core]
+	editor = vim

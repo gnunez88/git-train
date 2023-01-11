@@ -1,0 +1,2 @@
+export HOME=${PWD}/home/captain
+export EDITOR=vim
