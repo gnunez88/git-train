@@ -34,7 +34,7 @@ class User(object):
         cwd = pathlib.Path().cwd()
         return f'{cwd}/home/{self.user}'
 
-    def clone(self, url:str, project_name:str):
+    def clone(self, url:str, project_name:str) -> None:
         self._set_env()  # Setting the environment
         self.repos[project_name] = dict()
         self.repos[project_name]["url"] = url
@@ -43,24 +43,35 @@ class User(object):
         object_path = pathlib.Path(path)
         if object_path.exists():
             shutil.rmtree(object_path)
-        self.repos[project_name]["repo"] = Repo.clone_from(url, path)
+        cmd = subprocess.run(['git', 'clone', url, path], capture_output=True)
 
-    def mkchanges(self, level:int, project_name:str):
+    def mkchanges(self, level:int, project_name:str) -> None:
+        self._set_env()
+        if level == 1:
+            with open(f"{self.repos[project_name]['path']}/l1.info", "a+") as f:
+                content  = "#!/usr/bin/env python3\n"
+                content += "print('Level 1')\n"
+                f.write(content)
+
+    def pull(self, url:str) -> None:
         pass
 
-    def pull(self, url:str):
+    def push(self, project_name:str) -> None:
+        self._set_env()
+        subprocess.run(['git', 'push'], capture_output=True)
+
+    def stage(self, project_name:str, files:dict=['-A']) -> None:
+        self._set_env()
+        subprocess.run(['git', 'add'] + files, capture_output=True)
+
+    def commit(self, project_name:str, message:str) -> None:
+        self._set_env()
+        subprocess.run(['git', 'commit', '-m', message], capture_output=True)
+
+    def branch(self, project_name:str, branch_name:str) -> None:
         pass
 
-    def push(self, url:str):
-        pass
-
-    def commit(self, project_name:str):
-        pass
-
-    def branch(self, project_name:str, branch_name:str):
-        pass
-
-    def merge(self, project_name:str, branch_name:str):
+    def merge(self, project_name:str, branch_name:str) -> None:
         pass
 
 
@@ -84,17 +95,23 @@ def parse_url(raw_url:str) -> dict:
 
 
 def main(args):
+    # User names
+    names = ['captain', 'thor', 'hulk']
     # Instantiating user objects
     users = dict()
-    users['captain'] = User("captain")
-    users['thor'] = User("thor")
-    users['hulk'] = User("hulk")
+    for name in names:
+        users[name] = User(name)
     # Cloning the project
     project = parse_url(args.project)
     for user in users:
         users[user].clone(project["url"], project["name"])
     # Level 1: A user makes a modification and pushes it to the repository
-    user = random.choice(users)
+    level = 1
+    l1_user = random.choice(names)
+    users[l1_user].mkchanges(level, project["name"])
+    users[l1_user].stage(project["name"])
+    users[l1_user].commit(project["name"], "L1 message added")
+    users[l1_user].push(project["name"])
 
 
 # Execution
