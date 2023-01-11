@@ -22,20 +22,21 @@ class User(object):
         print(f"self.user: {self.user}")
         print(f"self.env['HOME']: {self.env['HOME']}")
 
-    def _set_env(self) -> None:
+    def _set_env(self, pwd:str) -> None:
         """
         You cannot make: os.environ = self.env because
         type(os.environ) is os._Environ and 
         type(self.env) is dict
         """
         os.environ['HOME'] = self.env['HOME']
+        os.environ['PWD'] = pwd
 
     def _gethome(self) -> str:
         cwd = pathlib.Path().cwd()
         return f'{cwd}/home/{self.user}'
 
     def clone(self, url:str, project_name:str) -> None:
-        self._set_env()  # Setting the environment
+        self._set_env(self.env['HOME'])  # Setting the environment
         self.repos[project_name] = dict()
         self.repos[project_name]["url"] = url
         path = f'{self.env["HOME"]}/{project_name}'
@@ -46,7 +47,7 @@ class User(object):
         cmd = subprocess.run(['git', 'clone', url, path], capture_output=True)
 
     def mkchanges(self, level:int, project_name:str) -> None:
-        self._set_env()
+        self._set_env(self.env['HOME'])
         if level == 1:
             with open(f"{self.repos[project_name]['path']}/l1.info", "a+") as f:
                 content  = "#!/usr/bin/env python3\n"
@@ -57,15 +58,15 @@ class User(object):
         pass
 
     def push(self, project_name:str) -> None:
-        self._set_env()
+        self._set_env(self.repos[project_name]['path'])
         subprocess.run(['git', 'push'], capture_output=True)
 
     def stage(self, project_name:str, files:dict=['-A']) -> None:
-        self._set_env()
+        self._set_env(self.repos[project_name]['path'])
         subprocess.run(['git', 'add'] + files, capture_output=True)
 
     def commit(self, project_name:str, message:str) -> None:
-        self._set_env()
+        self._set_env(self.repos[project_name]['path'])
         subprocess.run(['git', 'commit', '-m', message], capture_output=True)
 
     def branch(self, project_name:str, branch_name:str) -> None:
