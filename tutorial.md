@@ -9,6 +9,8 @@ Better alternatives:
 
 ## 01 - Basic Level
 
+- `config`, `init`, `status`, `add`, `commit`, `diff`, `.gitignore`
+
 ### Steps to Follow
 
 00. Configure your information:
@@ -75,5 +77,75 @@ with open("name.txt", "r") as f:
     - `git add -A`
     - `git commit -m "hello.py reads name from file"`
 
+## 02 - Still Basic Level
 
+- `clone`, `pull`, `branch`, `checkout`, `merge`, `remote`, `push`
+
+### Steps to Follow
+
+00. Create a SSH-key pair:
+```bash
+ssh-keygen -t rsa -b 2048 -N '' -f ~/.ssh/github -q
+```
+01. Create the proper settings to access GitHub with this key:
+```bash
+cat > ~/.ssh/config << EOF
+Host github
+    Hostname github.com
+    User git
+    Port 22
+    PreferredAuthentications publickey
+    IdentityFile ~/.ssh/github
+```
+02. Upload your **public** key to your GitHub account:
+    01. Click on your user's profile image.
+    02. Click on `Settings` 
+    03. Click on `SSH and GPG keys` within the `Access` section
+    04. Click on the `New SSH key` button
+    05. Choose a title
+    06. Select the `Authentication type` on `Key type`.
+    07. Paste the PUBLIC (`.pub`) key on the `Key` text area.
+    08. Click on `Add SSH key` button.
+03. Test the connection:
+```bash
+ssh -vT github
+```
+    - Notes: 
+        01. The `ssh` client will get the information from the `~/.ssh/config` file.
+        02. It knows what information to choose because it is specified with the `github` word.
+        03. We can have more than one section for other repositories.
+04. Create a new repository on GitHub:
+    01. Go to your profile (`https://github.com/<username>`)
+    02. Select the `Repositories` tab.
+    03. Click on the `New` button.
+    04. On repository name choose the project name, e.g.: `git-test`.
+    05. If you are going to push (upload) an existing repository, do not add anything (license, README.txt, gitignore)
+    06. Click on the `Create repostory` button.
+05. Since, by default, `git` creates the `master` branch and GitHub/GitLab use the `main` branch, you should
+    rename your branch:
+    - `git branch -m master main`
+06. Push (upload) your existing repository.
+```bash
+git remote add github-ssh git@github:<username>/git-test.git
+git push -u github-ssh main
+```
+    - Notes:
+        01. Most people use `origin`, however you can put whatever you want.
+        02. I have use `github` as a hostname, instead of `github.com` because the information is going
+            to be taken from `~/.ssh/config`, where `github` is the key to the information.
+        03. With the `push` command we choose the *remote* key to use (`github-ssh`) and the branch
+            to push (`main`).
+
+
+# Recommendations
+
+What to commit?
+- source code
+- non-sensitive settings
+What not to commit?
+- credentials
+- API keys
+- usernames
+- emails
+- binaries
 
