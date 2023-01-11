@@ -7,3 +7,5 @@ venv
 # History files
 **/.viminfo
 **/.lesshst
+# Private keys
+**/.ssh/git*
