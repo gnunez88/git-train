@@ -87,7 +87,7 @@ with open("name.txt", "r") as f:
 
 ## 02 - Still Basic Level
 
-- `clone`, `pull`, `branch`, `checkout`, `merge`, `remote`, `push`
+- `clone`, `pull`, `branch`, `switch`, `merge`, `remote`, `push`
 
 ### Steps to Follow
 
@@ -144,6 +144,29 @@ git push -u github-ssh main
         03. With the `push` command we choose the *remote* key to use (`github-ssh`) and the branch
             to push (`main`).
 
+# More commands and concepts
+
+## revert vs reset
+
+- `git revert` makes a new commit with the changes undone.
+- `git reset` sets back the HEAD and TREE.
+    - `--soft`: this option allows us to go back to the future (changes).
+    - `--hard`: this removes forever the changes.
+
+## merge vs rebase vs fast-forward vs squash
+
+- `git merge <feature-branch>`: merges two branches in a new commit without merging their history.
+    - `--ff`: (fast-forward)
+    - `--squash`: combine multiple commits into one.
+- `git rebase`: merges two branches merging their history.
+
+```bash
+git log --oneline --graph --all
+```
+
+```bash
+git show-branch -a
+```
 
 # Recommendations
 
@@ -156,4 +179,21 @@ What not to commit?
 - usernames
 - emails
 - binaries
+
+# Workflow
+
+01. Main branch with consistent code.
+02. Feature branches where to work in.
+03. Several and consistent commits.
+    - Descriptive commit messages.
+    - Make commits about one whole thing is easier to maintain when reading the history.
+04. Squash the commits on merging to the main branch.
+    - You should squash your local commits.
+05. Before pushing a commit, you should fetch the remote repository to synchronise.
+06. Use tags for the most important commits.
+    - Follow to [semantic versioning](https://semver.org/)
+07. Whenever there is an important and functional commit, make a release.
+    - Within a release we can upload binaries if necessary (max.: 100MB).
+08. Use of CI/CD: GitHub Actions to test the code automatically before merging.
+
 
